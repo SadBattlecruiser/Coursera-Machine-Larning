@@ -32,20 +32,28 @@ print('Correlation between SibSb and Parch', correlation)
 #   Часть про самое популярное женское имя
 print('\n')
 womenNames = data[data['Sex'] == 'female']['Name']
-#print(womenNames[:10])
-#print(type(womenNames))
+womenFirstNamesBank = []
 #   Где есть "Mrs."
 isMrs = womenNames.str.find('Mrs.') > 0
 mrsNames = womenNames[isMrs]
 mrsBeginFirstNames = mrsNames.str.find('(') + 1
+for i in range(mrsNames.shape[0] - 1):
+    currFirstName = mrsNames.iloc[i][(mrsBeginFirstNames.iloc[i]) : -1]
+    currFirstNameArr = currFirstName.split(' ')
+    #   Надо понимать, что здесь последнее слово -- девичья фамилия. Но плевать
+    for fn in currFirstNameArr:
+        womenFirstNamesBank.append(fn)
 #   Где есть "Miss."
 missNames = womenNames[~isMrs]
-missBeginFirstNames = missNames.str.find('Miss.') + 5
-print('\n')
-print(mrsNames)
-print(mrsBeginFirstNames)
-#print(missNames)
-#print(missBeginFirstNames)
+missBeginFirstNames = missNames.str.find('Miss.') + 6
+for i in range(missNames.shape[0] - 1):
+    currFirstName = missNames.iloc[i][(missBeginFirstNames.iloc[i]) :]
+    currFirstNameArr = currFirstName.split(' ')
+    for fn in currFirstNameArr:
+        womenFirstNamesBank.append(fn)
+#print(womenFirstNamesBank)
+womenFirstNamesSeries = pd.Series(womenFirstNamesBank)
+popularNames = womenFirstNamesSeries.value_counts()
+#print("Most popular female first names:\n", popularNames)
 
-
-#print(mrsNames)
+print(womenNames[womenNames == 'Mary'])
