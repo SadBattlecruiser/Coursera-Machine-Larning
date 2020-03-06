@@ -19,6 +19,7 @@ kFold = KFold(n_splits=5, shuffle=True, random_state=42)
 #   Подбираем оптимальное количество соседей
 for neighNum in range(1, 51, 1):
     valIndexes = kFold.split(dataAns)
+    #print("!!!!!!!!!!!!!!", valIndexes)
     #   Это сам классификатор
     knnClassifier = KNeighborsClassifier(n_neighbors=neighNum)
     #print('current classifier params is:', knnClassifier.get_params())
