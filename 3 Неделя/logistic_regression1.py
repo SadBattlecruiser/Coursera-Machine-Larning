@@ -14,7 +14,7 @@ def dim2_grad_desc(X, y, w0_vect=[0, 0], k=0.1, eps=1e-5):
         w2 = w2o + k/L * np.sum(y * X[:, 1] * (1 - 1/(1 + np.exp(-y*(w1o*X[:, 0] + w2o*X[:, 1])))))
         dist = np.linalg.norm(np.array([w1, w2] - np.array([w1o, w2o])))
         if (dist < eps):
-            #print('Eps! Counter:', i)
+            print('Eps! Counter:', i)
             return np.array([w1, w2])   # Да, можно было просто сделать вектора и не дергать каждый раз
     return np.array([w1, w2])
 
@@ -41,7 +41,7 @@ target = data_full[:, 0]
 #print(data_full)
 #print(data)
 #print(target)
-w_vec = dim2_grad_desc(data, target)
+w_vec = dim2_grad_desc(data, target, k=1)
 print('Non-normalized:', w_vec)
 w_vec_norm = dim2_grad_desc_norm(data, target, C=10)
 print('Normalized:', w_vec_norm)
